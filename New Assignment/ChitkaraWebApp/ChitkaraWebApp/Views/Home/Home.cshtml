@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewData["Title"] = "Home";
+}
+<br /><br />
+<button onclick="getAllResultTo()" type="button">Get all Records</button><br /><br />
+<button onclick="getResultTo()" type="button">Get a single Record</button><br /><br />
+
+
+<form action="" id="details">
+    <input id="Name" placeholder="Student's Name" />
+    <input id="Age" placeholder="Student's Age" />
+    <input id="Contact" placeholder="Student's Contact" />
+    <input id="Department" placeholder="Student's Department" />
+    <button onclick="postResultTo()" id="#btn2" type="button">Update single record</button>
+</form><br />
+
+
+
+<input id="elmnt" type="text" />
+<button onclick="dataFrom()" type="button">Search the data</button>
+<br /><br />
+<p id="msg"></p>
+
+
+
+<div id="container"></div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" type="text/javascript">
+    function getAllResultTo() {
+        $.ajax({
+            type: "GET",
+            url: "/Home/GetStudentDetails",
+            success: function (msg) {
+                var data = JSON.stringify(msg);
+                document.getElementById('container').innerHTML = data;
+            },
+            error: function (req, status, error) {
+                alert(error);
+            }
+        });
+    }
+
+    function getResultTo() {
+        $.ajax({
+            type: "GET",
+            url: "/Home/GetStudentDetailsByIdAsync",
+            data: { "id": 5 },
+            dataType: "json",
+            success: function (msg) {
+                var data = JSON.stringify(msg);
+                document.getElementById('container').innerHTML = data;
+            },
+            error: function (req, status, error) {
+                alert(error);
+            }
+        });
+    }
+    function postResultTo() {
+        var data = {
+            StudentName: $("#Name").val(),
+            StudentAge: $("#Age").val(),
+            StudentContact: $("#Contact").val(),
+            StudentDepartment: $("#Department").val()
+        }
+        console.log(data);
+        var msg = JSON.stringify(data);
+        document.getElementById('container').innerHTML = msg;
+        document.getElementById('container');
+        $.ajax({
+            type: "POST",
+            url: "/Home/PostStudent",
+            contentType: "application/json; charset=utf-16",
+            data: JSON.stringify(data),
+            success: function (msg) {
+                console.log(msg);
+            },
+            error: function (req, status, error) {
+                alert(error);
+            }
+</script>
+
